@@ -391,14 +391,25 @@ md 768px 720px,
 lg 992px 960px,
 xl 1200px 1140px !default;
 
-$flexbox-justify-content: start,
-center,
+$justify-content: start,
 end,
-top,
-middle,
-bottom,
+center,
 around,
 between;
+
+$align-content: start,
+end,
+center,
+around,
+between,
+stretch;
+
+$align-items: start,
+end,
+center,
+baseline,
+stretch;
+
 
 $flexboxgrid-max-width: 1200px !default;
 
@@ -506,9 +517,56 @@ $flexboxgrid-max-width: 1200px !default;
   order: 13;
 }
 
-@each $breakpoint in $flexbox-justify-content {
-  .container--justify-content-#{$breakpoint} {
-    @include justify-content(flex-#{$breakpoint});
+@each $content in $justify-content{
+  .container--justify-content-#{$content} {
+      @if $content == center {
+          @include justify-content(#{$content});
+      }
+      @else if $content == around or $content == between {
+          @include justify-content(space-#{$content});
+      }
+      @else {
+          @include justify-content(flex-#{$content});
+      }
+  }
+}
+
+@each $content in $align-content{
+  .container--align-content-#{$content} {
+      @if $content == center or $content == stretch{
+          @include align-content(#{$content});
+      }
+      @else if $content == around or $content == between {
+          @include align-content(space-#{$content});
+      }
+      @else {
+          @include align-content(flex-#{$content});
+      }
+  }
+}
+
+@each $content in $align-items{
+  .container--align-items-#{$content} {
+      @if $content == center or $content == stretch or $content == baseline{
+          @include align-items(#{$content});
+      }
+      @else if $content == around or $content == between {
+          @include align-items(space-#{$content});
+      }
+      @else {
+          @include align-items(flex-#{$content});
+      }
+  }
+    .container--align-self-#{$content} {
+      @if $content == center or $content == stretch or $content == baseline{
+          @include align-self(#{$content});
+      }
+      @else if $content == around or $content == between {
+          @include align-self(space-#{$content});
+      }
+      @else {
+          @include align-self(flex-#{$content});
+      }
   }
 }
 
